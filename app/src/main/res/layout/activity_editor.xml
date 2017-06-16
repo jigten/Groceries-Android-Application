@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/activity_margin"
+    tools:context="com.example.android.groceries.EditorActivity">
+
+    <!-- Details Category -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- Label -->
+        <TextView
+            android:text="@string/category_detail"
+            style="@style/DetailStyle" />
+
+        <!-- Input fields -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="wrap_content"
+            android:paddingLeft="4dp"
+            android:orientation="vertical">
+
+            <!-- Name field -->
+            <EditText
+                android:id="@+id/edit_grocery_name"
+                android:hint="@string/hint_grocery_name"
+                android:inputType="textCapWords"
+                style="@style/EditorFieldStyle" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <!-- Price field -->
+                <EditText
+                    android:id="@+id/edit_grocery_price"
+                    android:hint="@string/hint_grocery_price"
+                    android:inputType="textCapWords"
+                    style="@style/EditorFieldStylePrice" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nu/-"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <!-- Price field -->
+                <EditText
+                    android:id="@+id/edit_grocery_quantity"
+                    android:hint="@string/hint_grocery_quantity"
+                    android:inputType="textCapWords"
+                    style="@style/EditorFieldStylePrice" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Kg"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Total Category -->
+    <LinearLayout
+        android:id="@+id/container_total"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- Label -->
+        <TextView
+            android:text="@string/category_total"
+            style="@style/DetailStyle" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/text_view_total"
+                style="@style/DetailStyle" />
+
+            <Button
+                android:id="@+id/butotn_calculate_total"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Calculate"
+                style="@style/Widget.AppCompat.Button.Colored" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

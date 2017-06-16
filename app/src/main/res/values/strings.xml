@@ -1,0 +1,32 @@
+<resources>
+    <!-- Name for the application [CHAR LIMIT=12] -->
+    <string name="app_name">Groceries</string>
+
+    <!-- Label for overflow menu option that inserts fake grocery data into the app [CHAR LIMIT=20] -->
+    <string name="action_insert_dummy_data">Insert Dummy Data</string>
+
+    <!-- Label for overflow menu option that deletes all grocery data in the app [CHAR LIMIT=20] -->
+    <string name="action_delete_all_entries">Delete All Grocery Items</string>
+
+    <!-- Label for detail category of attributes in the editor [CHAR LIMIT=30] -->
+    <string name="category_detail">Details</string>
+
+    <!-- Label for detail category of attributes in the editor [CHAR LIMIT=30] -->
+    <string name="category_total">Total</string>
+
+    <!-- Text hint for name field in the editor [CHAR LIMIT=30] -->
+    <string name="hint_grocery_name">Name</string>
+
+    <!-- Text hint for price field in the editor [CHAR LIMIT=30] -->
+    <string name="hint_grocery_price">Price</string>
+
+    <!-- Text hint for quantity field in the editor [CHAR LIMIT=30] -->
+    <string name="hint_grocery_quantity">Quantity</string>
+
+    <!-- Label for editor menu option to save grocery item and leave editor [CHAR LIMIT=20] -->
+    <string name="action_save">Save</string>
+
+    <!-- Label for editor overflow menu option that deletes the current grocery item [CHAR LIMIT=20] -->
+    <string name="action_delete">Delete</string>
+
+</resources>
