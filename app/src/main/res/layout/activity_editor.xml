@@ -76,36 +76,4 @@
 
     </LinearLayout>
 
-    <!-- Total Category -->
-    <LinearLayout
-        android:id="@+id/container_total"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <!-- Label -->
-        <TextView
-            android:text="@string/category_total"
-            style="@style/DetailStyle" />
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="2"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/text_view_total"
-                style="@style/DetailStyle" />
-
-            <Button
-                android:id="@+id/butotn_calculate_total"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Calculate"
-                style="@style/Widget.AppCompat.Button.Colored" />
-        </LinearLayout>
-
-    </LinearLayout>
-
 </LinearLayout>
