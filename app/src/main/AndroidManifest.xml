@@ -17,6 +17,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".EditorActivity"></activity>
+        <provider
+            android:authorities="com.example.android.groceries"
+            android:name=".data.GroceryProvider"
+            android:exported="false" />
     </application>
 
 </manifest>

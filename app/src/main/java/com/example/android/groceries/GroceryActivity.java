@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -59,15 +60,7 @@ public class GroceryActivity extends AppCompatActivity {
                 GroceryEntry.COLUMN_GROCERY_TOTAL
         };
 
-        Cursor cursor = db.query(
-                GroceryEntry.TABLE_NAME,
-                project,
-                null,
-                null,
-                null,
-                null,
-                null
-        );
+        Cursor cursor = getContentResolver().query(GroceryEntry.CONTENT_URI, project, null, null, null);
 
         TextView displayView = (TextView) findViewById(R.id.text_view_grocery);
 
@@ -122,12 +115,7 @@ public class GroceryActivity extends AppCompatActivity {
         values.put(GroceryEntry.COLUMN_GROCERY_QUANTITY, 3.5);
         values.put(GroceryEntry.COLUMN_GROCERY_TOTAL, 526.75);
 
-        long newRowId;
-        newRowId = db.insert(
-                GroceryEntry.TABLE_NAME,
-                null,
-                values
-        );
+        Uri newUri = getContentResolver().insert(GroceryEntry.CONTENT_URI, values);
     }
 
 

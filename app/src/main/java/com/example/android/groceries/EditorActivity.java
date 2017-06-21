@@ -2,13 +2,13 @@ package com.example.android.groceries;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.example.android.groceries.data.GroceryContract.GroceryEntry;
 import com.example.android.groceries.data.GroceryDbHelper;
@@ -58,18 +58,7 @@ public class EditorActivity extends AppCompatActivity {
         values.put(GroceryEntry.COLUMN_GROCERY_QUANTITY, quantityFloat);
         values.put(GroceryEntry.COLUMN_GROCERY_TOTAL, totalFloat);
 
-        long newRowId;
-        newRowId = db.insert(
-                GroceryEntry.TABLE_NAME,
-                null,
-                values
-        );
-
-        if (newRowId == -1) {
-            Toast.makeText(this, "Error saving grocery item", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "Grocery item saved with row id: " + newRowId, Toast.LENGTH_SHORT).show();
-        }
+        Uri newUri = getContentResolver().insert(GroceryEntry.CONTENT_URI, values);
     }
 
     @Override
