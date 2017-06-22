@@ -11,7 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.ListView;
 
 import com.example.android.groceries.data.GroceryContract.GroceryEntry;
 import com.example.android.groceries.data.GroceryDbHelper;
@@ -62,46 +62,14 @@ public class GroceryActivity extends AppCompatActivity {
 
         Cursor cursor = getContentResolver().query(GroceryEntry.CONTENT_URI, project, null, null, null);
 
-        TextView displayView = (TextView) findViewById(R.id.text_view_grocery);
+        ListView groceryLV = (ListView) findViewById(R.id.groceriesLV);
 
-        try {
-            // Create a header in the TextView that looks like this:
-            //
-            // The Groceries table contains <number of rows in the Cursor> groceries
-            // _id - name - price - quantity - total
-            //
-            // In the while loop below, iterate through the rows of the cursor and display
-            // the information from each column in this order
-            displayView.setText("The Groceries table contains " + cursor.getCount() + " groceries.\n\n");
-            displayView.append(GroceryEntry._ID + " - " + GroceryEntry.COLUMN_GROCERY_NAME + " - " + GroceryEntry.COLUMN_GROCERY_PRICE +
-            " - " + GroceryEntry.COLUMN_GROCERY_QUANTITY + " - " + GroceryEntry.COLUMN_GROCERY_TOTAL + "\n");
+        View emptyView = findViewById(R.id.empty_view);
+        groceryLV.setEmptyView(emptyView);
 
-            // Figure out the index of each column
-            int idColumnIndex = cursor.getColumnIndex(GroceryEntry._ID);
-            int nameColumnIndex = cursor.getColumnIndex(GroceryEntry.COLUMN_GROCERY_NAME);
-            int priceColumnIndex = cursor.getColumnIndex(GroceryEntry.COLUMN_GROCERY_PRICE);
-            int quantityColumnIndex = cursor.getColumnIndex(GroceryEntry.COLUMN_GROCERY_QUANTITY);
-            int totalColumnIndex = cursor.getColumnIndex(GroceryEntry.COLUMN_GROCERY_TOTAL);
+        GroceryCursorAdapter adapter = new GroceryCursorAdapter(this, cursor);
 
-            // Iterate through all the returned rows in the cursor
-            while(cursor.moveToNext()) {
-                // Use that index to extract the String/Int/Real value of the word
-                // at the current row the cursor is on.
-                int currentID = cursor.getInt(idColumnIndex);
-                String currentName = cursor.getString(nameColumnIndex);
-                float currentPrice = cursor.getFloat(priceColumnIndex);
-                float currentQuantity = cursor.getFloat(quantityColumnIndex);
-                float currentTotal = cursor.getFloat(totalColumnIndex);
-
-                // Display the values from each column of the current row in the cursor to the TextView
-                displayView.append("\n" + currentID + " - " + currentName + " - " + currentPrice + " - " + currentQuantity + " - " + currentTotal);
-            }
-
-        } finally {
-            // Always close the cursor when you're done reading from it. This releases all the
-            // resources and makes it invalid preventing memory leaks and performance issues
-            cursor.close();
-        }
+        groceryLV.setAdapter(adapter);
     }
 
     private void insertGrocery() {
