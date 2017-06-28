@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.android.groceries.data.GroceryContract.GroceryEntry;
 import com.example.android.groceries.data.GroceryDbHelper;
@@ -96,8 +97,10 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
         if(mCurrentGroceryUri == null) {
             Uri newUri = getContentResolver().insert(GroceryEntry.CONTENT_URI, values);
+            Toast.makeText(this, "Added new grocery item", Toast.LENGTH_SHORT).show();
         } else {
             int rowAffected = getContentResolver().update(mCurrentGroceryUri, values, null, null);
+            Toast.makeText(this, "Updated grocery item", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -122,7 +125,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 return true;
             // Respond to a click on the "Delete" menu option
             case R.id.action_delete:
-                // Do nothing for now
+                showDeleteConfirmationDialog();
                 return true;
             // Respond to a click on the "Up" arrow button in the app bar
             case android.R.id.home:
@@ -144,6 +147,41 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showDeleteConfirmationDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Delete this grocery item?");
+        builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                deleteGrocery();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if(dialog != null) {
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    private void deleteGrocery() {
+        if(mCurrentGroceryUri != null) {
+            int rowsDeleted = getContentResolver().delete(mCurrentGroceryUri, null, null);
+
+            if(rowsDeleted == 0) {
+                Toast.makeText(this, "Error with deleting grocery item", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Grocery item deleted", Toast.LENGTH_SHORT).show();
+            }
+        }
+        finish();
     }
 
     @Override

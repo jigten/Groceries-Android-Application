@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.android.groceries.data.GroceryContract.GroceryEntry;
 
@@ -94,10 +95,15 @@ public class GroceryActivity extends AppCompatActivity implements LoaderManager.
                 return true;
             // Respond to a click on the "Delete all entries" menu option
             case R.id.action_delete_all_entries:
-                // Do nothing for now
+                deleteAllGroceries();
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void deleteAllGroceries() {
+        int rowsDeleted = getContentResolver().delete(GroceryEntry.CONTENT_URI, null, null);
+        Toast.makeText(this, "Succesfully deleted all groceries", Toast.LENGTH_SHORT).show();
     }
 
     @Override
