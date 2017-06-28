@@ -62,6 +62,7 @@ public class GroceryProvider extends ContentProvider {
             default:
                 throw new IllegalArgumentException("Cannot query unknown URI " + uri);
         }
+        cursor.setNotificationUri(getContext().getContentResolver(), uri);
         return cursor;
     }
 
@@ -84,6 +85,11 @@ public class GroceryProvider extends ContentProvider {
     }
 
     public Uri insertGrocery(Uri uri, ContentValues values) {
+        String name = values.getAsString(GroceryEntry.COLUMN_GROCERY_NAME);
+        if(name == null) {
+            throw new IllegalArgumentException("Grocert requires a name");
+        }
+
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         long id = db.insert(
                 GroceryEntry.TABLE_NAME,
@@ -94,16 +100,72 @@ public class GroceryProvider extends ContentProvider {
             Log.e(LOG_TAG, "Failed to insert row for: " + uri);
             return null;
         }
+
+        getContext().getContentResolver().notifyChange(uri, null);
         return ContentUris.withAppendedId(uri, id);
     }
 
     @Override
     public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
-        return 0;
+        SQLiteDatabase database = mDbHelper.getWritableDatabase();
+
+        int rowsDeleted;
+
+        final int match = sUriMatcher.match(uri);
+        switch (match) {
+            case GROCERIES:
+                rowsDeleted = database.delete(GroceryEntry.TABLE_NAME, selection, selectionArgs);
+                break;
+            case GROCERY_ID:
+                selection = GroceryEntry._ID + "=?";
+                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
+                rowsDeleted = database.delete(GroceryEntry.TABLE_NAME, selection, selectionArgs);
+                break;
+            default:
+                throw new IllegalArgumentException("Deletion is not supported for " + uri);
+        }
+
+        if(rowsDeleted != 0) {
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+        return rowsDeleted;
     }
 
     @Override
     public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs) {
-        return 0;
+        final int match = sUriMatcher.match(uri);
+        switch (match) {
+            case GROCERIES:
+                return updateGrocery(uri, values, selection, selectionArgs);
+            case GROCERY_ID:
+                selection = GroceryEntry._ID + "=?";
+                selectionArgs = new String[] {String.valueOf(ContentUris.parseId(uri))};
+                return updateGrocery(uri, values, selection, selectionArgs);
+            default:
+                throw new IllegalArgumentException("Update is not supported for " + uri);
+        }
     }
+
+    private int updateGrocery(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+        if(values.containsKey(GroceryEntry.COLUMN_GROCERY_NAME)) {
+            String name = values.getAsString(GroceryEntry.COLUMN_GROCERY_NAME);
+            if(name == null) {
+                throw new IllegalArgumentException("Grocery requies a name");
+            }
+        }
+
+        if(values.size() == 0) {
+            return 0;
+        }
+
+        SQLiteDatabase database = mDbHelper.getWritableDatabase();
+
+        int rowsUpdated = database.update(GroceryEntry.TABLE_NAME, values, selection, selectionArgs);
+
+        if( rowsUpdated != 0 ) {
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+        return rowsUpdated;
+    }
+
 }
