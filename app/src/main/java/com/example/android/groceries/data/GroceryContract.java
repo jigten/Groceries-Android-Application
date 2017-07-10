@@ -25,6 +25,7 @@ public class GroceryContract {
         public final static String COLUMN_GROCERY_QUANTITY = "quantity";
         public final static String COLUMN_GROCERY_PRICE = "price";
         public final static String COLUMN_GROCERY_TOTAL = "total";
+        public final static String COLUMN_GROCERY_DATE = "created_at";
 
     }
 }

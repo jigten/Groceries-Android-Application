@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.groceries.data.GroceryContract.GroceryEntry;
@@ -31,6 +32,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     private EditText mNameEditText;
     private EditText mQuantityEditText;
     private EditText mPriceEditText;
+    private TextView mDateTextView;
 
     private boolean mGroceryHasChanged = false;
 
@@ -62,6 +64,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         mNameEditText = (EditText) findViewById(R.id.edit_grocery_name);
         mPriceEditText = (EditText) findViewById(R.id.edit_grocery_price);
         mQuantityEditText = (EditText) findViewById(R.id.edit_grocery_quantity);
+        mDateTextView = (TextView) findViewById(R.id.tv_grocery_date);
 
         mNameEditText.setOnTouchListener(mTouchListener);
         mPriceEditText.setOnTouchListener(mTouchListener);
@@ -208,7 +211,8 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 GroceryEntry._ID,
                 GroceryEntry.COLUMN_GROCERY_NAME,
                 GroceryEntry.COLUMN_GROCERY_QUANTITY,
-                GroceryEntry.COLUMN_GROCERY_PRICE};
+                GroceryEntry.COLUMN_GROCERY_PRICE,
+                GroceryEntry.COLUMN_GROCERY_DATE};
 
         // This loader will execute the ContentProvider's query method on a background thread
         return new CursorLoader(this,   // Parent activity context
@@ -225,13 +229,16 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             int nameColumnIndex = cursor.getColumnIndex(GroceryEntry.COLUMN_GROCERY_NAME);
             int quantityColumnIndex = cursor.getColumnIndex(GroceryEntry.COLUMN_GROCERY_QUANTITY);
             int priceColumnIndex = cursor.getColumnIndex(GroceryEntry.COLUMN_GROCERY_PRICE);
+            int dateColumnIndex = cursor.getColumnIndex(GroceryEntry.COLUMN_GROCERY_DATE);
 
             String name = cursor.getString(nameColumnIndex);
             float quantity = cursor.getFloat(quantityColumnIndex);
             float price = cursor.getFloat(priceColumnIndex);
+            String groceryDate = cursor.getString(dateColumnIndex);
             mNameEditText.setText(name);
             mPriceEditText.setText(String.valueOf(price));
             mQuantityEditText.setText(String.valueOf(quantity));
+            mDateTextView.setText(groceryDate);
         }
     }
 
