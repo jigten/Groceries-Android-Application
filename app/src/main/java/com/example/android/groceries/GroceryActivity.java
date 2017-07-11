@@ -90,8 +90,9 @@ public class GroceryActivity extends AppCompatActivity implements LoaderManager.
         // User clicked on a menu option in the app bar overflow menu
         switch (item.getItemId()) {
             // Respond to a click on the "Insert dummy data" menu option
-            case R.id.action_insert_dummy_data:
-                insertGrocery();
+            case R.id.action_summary_report:
+                Intent intent = new Intent(this, SummaryActivity.class);
+                startActivity(intent);
                 return true;
             // Respond to a click on the "Delete all entries" menu option
             case R.id.action_delete_all_entries:

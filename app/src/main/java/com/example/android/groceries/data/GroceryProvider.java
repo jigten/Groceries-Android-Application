@@ -23,12 +23,14 @@ public class GroceryProvider extends ContentProvider {
 
     private static final int GROCERIES = 100;
     private static final int GROCERY_ID = 101;
+    private static final int GROCERY_SUMMARY = 102;
 
     private static final UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
     static {
         sUriMatcher.addURI(GroceryContract.CONTENT_AUTHORITY, GroceryContract.PATH_GROCERIES, GROCERIES);
         sUriMatcher.addURI(GroceryContract.CONTENT_AUTHORITY, GroceryContract.PATH_GROCERIES + "/#", GROCERY_ID);
+        sUriMatcher.addURI(GroceryContract.CONTENT_AUTHORITY, GroceryContract.PATH_GROCERIES + "/summary", GROCERY_SUMMARY);
     }
 
     private GroceryDbHelper mDbHelper;
@@ -58,6 +60,9 @@ public class GroceryProvider extends ContentProvider {
                 selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
                 cursor = database.query(GroceryEntry.TABLE_NAME, projection, selection, selectionArgs,
                         null, null, sortOrder);
+                break;
+            case GROCERY_SUMMARY:
+                cursor = database.rawQuery("SELECT name, SUM(total) AS total FROM groceries GROUP BY name ORDER BY total DESC", null);
                 break;
             default:
                 throw new IllegalArgumentException("Cannot query unknown URI " + uri);
@@ -167,5 +172,4 @@ public class GroceryProvider extends ContentProvider {
         }
         return rowsUpdated;
     }
-
 }

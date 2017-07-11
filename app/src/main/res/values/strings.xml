@@ -3,7 +3,7 @@
     <string name="app_name">Groceries</string>
 
     <!-- Label for overflow menu option that inserts fake grocery data into the app [CHAR LIMIT=20] -->
-    <string name="action_insert_dummy_data">Insert Dummy Data</string>
+    <string name="action_summary_report">Generate Summary</string>
 
     <!-- Label for overflow menu option that deletes all grocery data in the app [CHAR LIMIT=20] -->
     <string name="action_delete_all_entries">Delete All Grocery Items</string>

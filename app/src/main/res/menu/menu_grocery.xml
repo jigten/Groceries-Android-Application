@@ -6,8 +6,8 @@
     tools:context=".CatalogActivity">
 
     <item
-        android:id="@+id/action_insert_dummy_data"
-        android:title="@string/action_insert_dummy_data"
+        android:id="@+id/action_summary_report"
+        android:title="@string/action_summary_report"
         app:showAsAction="never" />
 
     <item
