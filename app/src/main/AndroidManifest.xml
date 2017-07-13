@@ -23,7 +23,8 @@
             android:authorities="com.example.android.groceries"
             android:exported="false" />
 
-        <activity android:name=".SummaryActivity"></activity>
+        <activity android:name=".SummaryActivity" />
+        <activity android:name=".HistoryActivity"></activity>
     </application>
 
 </manifest>

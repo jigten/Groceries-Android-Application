@@ -1,7 +1,6 @@
 package com.example.android.groceries;
 
 import android.content.ContentUris;
-import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -32,8 +31,8 @@ public class GroceryActivity extends AppCompatActivity implements LoaderManager.
         setContentView(R.layout.activity_grocery);
 
         // Setup FAB to open EditorActivity
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton fabAdd = (FloatingActionButton) findViewById(R.id.fabAdd);
+        fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(GroceryActivity.this, EditorActivity.class);
@@ -64,19 +63,6 @@ public class GroceryActivity extends AppCompatActivity implements LoaderManager.
         getSupportLoaderManager().initLoader(GROCERY_LOADER, null, this);
     }
 
-    private void insertGrocery() {
-        // Create a new map of values, where the column names are keys
-        ContentValues values = new ContentValues();
-        values.put(GroceryEntry.COLUMN_GROCERY_NAME, "Chillies");
-        values.put(GroceryEntry.COLUMN_GROCERY_PRICE, 150.50);
-        values.put(GroceryEntry.COLUMN_GROCERY_QUANTITY, 3.5);
-        values.put(GroceryEntry.COLUMN_GROCERY_TOTAL, 526.75);
-
-        Uri newUri = getContentResolver().insert(GroceryEntry.CONTENT_URI, values);
-    }
-
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu options from the res/menu/menu_grocery.xml file
@@ -91,8 +77,12 @@ public class GroceryActivity extends AppCompatActivity implements LoaderManager.
         switch (item.getItemId()) {
             // Respond to a click on the "Insert dummy data" menu option
             case R.id.action_summary_report:
-                Intent intent = new Intent(this, SummaryActivity.class);
-                startActivity(intent);
+                Intent summaryIntent = new Intent(this, SummaryActivity.class);
+                startActivity(summaryIntent);
+                return true;
+            case R.id.action_show_history:
+                Intent historyIntent = new Intent(this, HistoryActivity.class);
+                startActivity(historyIntent);
                 return true;
             // Respond to a click on the "Delete all entries" menu option
             case R.id.action_delete_all_entries:

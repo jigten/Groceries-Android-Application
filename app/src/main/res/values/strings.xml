@@ -2,7 +2,7 @@
     <!-- Name for the application [CHAR LIMIT=12] -->
     <string name="app_name">Groceries</string>
 
-    <!-- Label for overflow menu option that inserts fake grocery data into the app [CHAR LIMIT=20] -->
+    <!-- Label for overflow menu option that displays summary grocery data into the app [CHAR LIMIT=20] -->
     <string name="action_summary_report">Generate Summary</string>
 
     <!-- Label for overflow menu option that deletes all grocery data in the app [CHAR LIMIT=20] -->
@@ -34,5 +34,8 @@
 
     <!-- Subtitle text for the empty view that prompts the user to add a pet [CHAR LIMIT=50] -->
     <string name="empty_view_subtitle_text">Get started by adding an item</string>
+
+    <!-- Label for overflow menu option that displays grocery history into the app -->
+    <string name="action_history">View History</string>
 
 </resources>
