@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -31,7 +30,9 @@ public class GroceryActivity extends AppCompatActivity implements LoaderManager.
         setContentView(R.layout.activity_grocery);
 
         // Setup FAB to open EditorActivity
-        FloatingActionButton fabAdd = (FloatingActionButton) findViewById(R.id.fabAdd);
+        com.github.clans.fab.FloatingActionButton fabAdd = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.fabAdd);
+        com.github.clans.fab.FloatingActionButton fabSave = (com.github.clans.fab.FloatingActionButton) findViewById(R.id.fabSave);
+
         fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -40,7 +41,14 @@ public class GroceryActivity extends AppCompatActivity implements LoaderManager.
             }
         });
 
-        ListView groceryListView = (ListView) findViewById(R.id.groceriesLV);
+        fabSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "TODO: Grocery basket saved", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        final ListView groceryListView = (ListView) findViewById(R.id.groceriesLV);
 
         View emptyView = findViewById(R.id.empty_view);
         groceryListView.setEmptyView(emptyView);
