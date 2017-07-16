@@ -7,12 +7,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import com.example.android.groceries.data.GroceryContract.GroceryEntry;
+import com.example.android.groceries.data.GroceryContract.HistoryEntry;
 
 public class SummaryActivity extends AppCompatActivity {
 
     String summaryPath = "summary";
 
-    private Uri summaryUri = Uri.withAppendedPath(GroceryEntry.CONTENT_URI, summaryPath);
+    private Uri summaryUri = Uri.withAppendedPath(HistoryEntry.CONTENT_URI, summaryPath);
 
     TextView mSummaryTextView;
 

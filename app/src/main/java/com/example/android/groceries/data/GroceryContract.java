@@ -10,6 +10,7 @@ import android.provider.BaseColumns;
 public class GroceryContract {
     public static final String CONTENT_AUTHORITY = "com.example.android.groceries";
     public static final String PATH_GROCERIES = "groceries";
+    public static final String PATH_HISTORIES = "histories";
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY );
 
     private GroceryContract() {}
@@ -26,6 +27,18 @@ public class GroceryContract {
         public final static String COLUMN_GROCERY_PRICE = "price";
         public final static String COLUMN_GROCERY_TOTAL = "total";
         public final static String COLUMN_GROCERY_DATE = "created_at";
+    }
 
+    public static final class HistoryEntry implements BaseColumns {
+        public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_HISTORIES);
+
+        public final static String TABLE_NAME = "histories";
+
+        public final static String _ID = BaseColumns._ID;
+        public final static String COLUMN_GROCERY_NAME = "name";
+        public final static String COLUMN_GROCERY_QUANTITY = "quantity";
+        public final static String COLUMN_GROCERY_PRICE = "price";
+        public final static String COLUMN_GROCERY_TOTAL = "total";
+        public final static String COLUMN_GROCERY_DATE = "created_at";
     }
 }

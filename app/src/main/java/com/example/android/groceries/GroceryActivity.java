@@ -1,6 +1,7 @@
 package com.example.android.groceries;
 
 import android.content.ContentUris;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -44,7 +46,7 @@ public class GroceryActivity extends AppCompatActivity implements LoaderManager.
         fabSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "TODO: Grocery basket saved", Toast.LENGTH_SHORT).show();
+                showSaveConfirmationDialog();
             }
         });
 
@@ -71,6 +73,60 @@ public class GroceryActivity extends AppCompatActivity implements LoaderManager.
         getSupportLoaderManager().initLoader(GROCERY_LOADER, null, this);
     }
 
+    private void saveBasket() {
+        String savePath = "save";
+        Uri saveUri = Uri.withAppendedPath(GroceryEntry.CONTENT_URI, savePath);
+        Cursor cursor = getContentResolver().query(saveUri, null, null, null, null);
+        deleteAllGroceries();
+    }
+
+    private void showDeleteConfirmationDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Delete all grocery items?");
+        builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                deleteAllGroceries();
+                Toast.makeText(getApplicationContext(), "Succesfully deleted all groceries", Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if(dialog != null) {
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    private void showSaveConfirmationDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Finished shopping for today?");
+        builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                saveBasket();
+                Toast.makeText(getApplicationContext(), "Grocery basket saved", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if(dialog != null) {
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu options from the res/menu/menu_grocery.xml file
@@ -94,7 +150,7 @@ public class GroceryActivity extends AppCompatActivity implements LoaderManager.
                 return true;
             // Respond to a click on the "Delete all entries" menu option
             case R.id.action_delete_all_entries:
-                deleteAllGroceries();
+                showDeleteConfirmationDialog();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -102,7 +158,6 @@ public class GroceryActivity extends AppCompatActivity implements LoaderManager.
 
     private void deleteAllGroceries() {
         int rowsDeleted = getContentResolver().delete(GroceryEntry.CONTENT_URI, null, null);
-        Toast.makeText(this, "Succesfully deleted all groceries", Toast.LENGTH_SHORT).show();
     }
 
     @Override

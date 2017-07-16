@@ -8,15 +8,14 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.example.android.groceries.data.GroceryContract.GroceryEntry;
+import com.example.android.groceries.data.GroceryContract.HistoryEntry;
 
 public class HistoryActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    TextView mHistoryTextView;
     String historyPath = "history";
-    private Uri historyUri = Uri.withAppendedPath(GroceryEntry.CONTENT_URI, historyPath);
+    private Uri historyUri = Uri.withAppendedPath(HistoryEntry.CONTENT_URI, historyPath);
     HistoryCursorAdapter mCursorAdapter;
     private static final int HISTORY_LOADER = 0;
 

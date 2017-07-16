@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.example.android.groceries.data.GroceryContract.GroceryEntry;
+import com.example.android.groceries.data.GroceryContract.HistoryEntry;
 
 /**
  * Created by ujigt on 6/21/2017.
@@ -25,14 +26,16 @@ public class GroceryProvider extends ContentProvider {
     private static final int GROCERY_ID = 101;
     private static final int GROCERY_SUMMARY = 102;
     private static final int GROCERY_HISTORY = 103;
+    private static final int GROCERY_SAVE = 104;
 
     private static final UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
     static {
         sUriMatcher.addURI(GroceryContract.CONTENT_AUTHORITY, GroceryContract.PATH_GROCERIES, GROCERIES);
         sUriMatcher.addURI(GroceryContract.CONTENT_AUTHORITY, GroceryContract.PATH_GROCERIES + "/#", GROCERY_ID);
-        sUriMatcher.addURI(GroceryContract.CONTENT_AUTHORITY, GroceryContract.PATH_GROCERIES + "/summary", GROCERY_SUMMARY);
-        sUriMatcher.addURI(GroceryContract.CONTENT_AUTHORITY, GroceryContract.PATH_GROCERIES + "/history", GROCERY_HISTORY);
+        sUriMatcher.addURI(GroceryContract.CONTENT_AUTHORITY, GroceryContract.PATH_HISTORIES + "/summary", GROCERY_SUMMARY);
+        sUriMatcher.addURI(GroceryContract.CONTENT_AUTHORITY, GroceryContract.PATH_GROCERIES + "/save", GROCERY_SAVE);
+        sUriMatcher.addURI(GroceryContract.CONTENT_AUTHORITY, GroceryContract.PATH_HISTORIES + "/history", GROCERY_HISTORY);
     }
 
     private GroceryDbHelper mDbHelper;
@@ -64,11 +67,15 @@ public class GroceryProvider extends ContentProvider {
                         null, null, sortOrder);
                 break;
             case GROCERY_SUMMARY:
-                cursor = database.rawQuery("SELECT name, SUM(total) AS total FROM groceries GROUP BY name ORDER BY total DESC", null);
+                cursor = database.rawQuery("SELECT name, SUM(total) AS total FROM histories GROUP BY name ORDER BY total DESC", null);
                 break;
             case GROCERY_HISTORY:
                 // cursor = database.rawQuery("SELECT DISTINCT created_at FROM groceries", null);
-                cursor = database.query(GroceryEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
+                cursor = database.query(HistoryEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
+                break;
+
+            case GROCERY_SAVE:
+                cursor = database.rawQuery("INSERT INTO histories SELECT * FROM groceries", null);
                 break;
             default:
                 throw new IllegalArgumentException("Cannot query unknown URI " + uri);
