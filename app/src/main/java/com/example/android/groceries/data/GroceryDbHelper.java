@@ -24,6 +24,9 @@ public class GroceryDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        db.execSQL("drop table if exists groceries");
+        db.execSQL("drop table if exists histories");
+
         // Create a string that contains the SQL statement to create the groceries table
         String SQL_ENTRY_PETS_TABLE = "CREATE TABLE " + GroceryEntry.TABLE_NAME + "("
                 + GroceryEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "

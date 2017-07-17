@@ -27,6 +27,7 @@ public class GroceryProvider extends ContentProvider {
     private static final int GROCERY_SUMMARY = 102;
     private static final int GROCERY_HISTORY = 103;
     private static final int GROCERY_SAVE = 104;
+    private static final int GROCERY_SHOW_HISTORY = 105;
 
     private static final UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
@@ -36,6 +37,7 @@ public class GroceryProvider extends ContentProvider {
         sUriMatcher.addURI(GroceryContract.CONTENT_AUTHORITY, GroceryContract.PATH_HISTORIES + "/summary", GROCERY_SUMMARY);
         sUriMatcher.addURI(GroceryContract.CONTENT_AUTHORITY, GroceryContract.PATH_GROCERIES + "/save", GROCERY_SAVE);
         sUriMatcher.addURI(GroceryContract.CONTENT_AUTHORITY, GroceryContract.PATH_HISTORIES + "/history", GROCERY_HISTORY);
+        sUriMatcher.addURI(GroceryContract.CONTENT_AUTHORITY, GroceryContract.PATH_HISTORIES + "/*", GROCERY_SHOW_HISTORY);
     }
 
     private GroceryDbHelper mDbHelper;
@@ -73,9 +75,17 @@ public class GroceryProvider extends ContentProvider {
                 // cursor = database.rawQuery("SELECT DISTINCT created_at FROM groceries", null);
                 cursor = database.query(HistoryEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
                 break;
-
             case GROCERY_SAVE:
                 cursor = database.rawQuery("INSERT INTO histories SELECT * FROM groceries", null);
+                break;
+            case GROCERY_SHOW_HISTORY:
+                cursor = database.query(HistoryEntry.TABLE_NAME,
+                        new String[] {HistoryEntry._ID, HistoryEntry.COLUMN_GROCERY_NAME, HistoryEntry.COLUMN_GROCERY_QUANTITY, HistoryEntry.COLUMN_GROCERY_TOTAL},
+                        "created_at = ?",
+                        new String[]{String.valueOf(uri.getLastPathSegment())},
+                        null,
+                        null,
+                        null);
                 break;
             default:
                 throw new IllegalArgumentException("Cannot query unknown URI " + uri);

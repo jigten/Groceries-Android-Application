@@ -24,7 +24,8 @@
             android:exported="false" />
 
         <activity android:name=".SummaryActivity" />
-        <activity android:name=".HistoryActivity"></activity>
+        <activity android:name=".HistoryActivity" />
+        <activity android:name=".HistoryShowActivity"></activity>
     </application>
 
 </manifest>
